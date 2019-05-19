@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,20 +19,24 @@ public class Category implements Images{
 	
 	public Category() {
 		super();
+		images = this.getPhotos();
 	}
 
 	@Override
 	public List<URL> getPhotos() {
+		images.clear(); //vide la liste des images
+		
 		
 		List<URL> allImagesURL = new ArrayList<URL>();
 		
 		/* Pour obtenir le chemin de fichier vers la catégorie */
 		String path = "src/"+this.getClass().getPackage().getName().replace('.', '/');
+		String windowspath = "src\\"+this.getClass().getPackage().getName().replace('.', '\\');
 		
 		/* On initialise la liste de toutes les images */
 		List<String> filelocations = null;
 
-		System.out.println("package name :" + path); //afficher le dossier en cours
+		System.out.println("package name :" + windowspath); //afficher le dossier en cours
 		
 		/*Nous allons retrouver les fichiers images présent dans le répertoire et tous ses sous-répertoires*/
 		Path start = Paths.get(path); //détermine le point de départ 
@@ -48,7 +53,8 @@ public class Category implements Images{
 		/* Pour chaque fichier retrouvé, on essaie de retrouver son chemin absolu pour le stocker dans le allImagesURL */
 		for (String filelocation : filelocations) {
 			String relativeLocation = filelocation.replace(path+"/", ""); // Pour ne pas partir de src mais de la classe courante
-			System.out.println("relative location " + relativeLocation);
+			relativeLocation = relativeLocation.replace(windowspath+"\\", "");
+			System.out.println("relative location : " + relativeLocation);
 			allImagesURL.add(this.getClass().getResource(relativeLocation)); //on ajoute le chemin absolu dans la liste
 		}
 		
@@ -59,8 +65,10 @@ public class Category implements Images{
 
 	@Override
 	public List<URL> getRandomPhotosURL(int value) {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.images.isEmpty()) { this.getPhotos(); } //s'assurer que la liste d'image est pleine
+		List<URL> randomPhotosURL = images; 
+		Collections.shuffle(randomPhotosURL); 
+		return randomPhotosURL;
 	}
 
 	@Override
