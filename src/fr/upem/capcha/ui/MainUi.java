@@ -24,18 +24,24 @@ import javax.swing.JTextArea;
 
 import fr.upem.capcha.images.Category;
 import fr.upem.capcha.images.vehicles.Vehicle;
-import fr.upem.capcha.logic.MainLogic;;
+import fr.upem.capcha.images.vehicles.cars.Car;
+import fr.upem.capcha.logic.MainLogic;
 
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
+	private static JFrame frame = new JFrame("Capcha");
 	
 	public static void main(String[] args) throws IOException {
 		
 		Category cat = new Vehicle();
+<<<<<<< HEAD
 		MainLogic logicEngine = new MainLogic();
+=======
+		Category car = new Car();
+>>>>>>> 4bafab305ed3cd03d1aa210346fc7923989ea630
 		
-		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
+		 // Création de la fenêtre principale
 		
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
 		
@@ -46,35 +52,22 @@ public class MainUi {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
 		 
 		
-		JButton okButton = createOkButton();
-		
-		System.out.println("Money");
-
-		List<URL> images = cat.getPhotos();
-	
-		for (URL imageurl : images) {
-			System.out.println("load : " + imageurl);
-			frame.add(createLabelImage(imageurl));
-		}	
-		
-		/*
-		frame.add(createLabelImage("centre ville.jpg")); //ajouter des composants à la fenêtre
-		frame.add(createLabelImage("le havre.jpg"));
-		frame.add(createLabelImage("panneau 70.jpg"));
-		frame.add(createLabelImage("panneaubleu-carre.jpeg"));
-		frame.add(createLabelImage("parking.jpg"));
-		frame.add(createLabelImage("route panneau.jpg"));
-		frame.add(createLabelImage("tour eiffel.jpg"));
-		frame.add(createLabelImage("ville espace verts.jpg"));
-		frame.add(createLabelImage("voie pieton.jpg"));
-		*/
+		List<URL> images = cat.getRandomPhotosURL(9);
+		createImages(images);
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		
-		
+		JButton okButton = createOkButton();
 		frame.add(okButton);
 		
 		frame.setVisible(true);
+	}
+	
+	private static void createImages(List<URL> imageList) throws IOException {
+		for (URL imageurl : imageList) {
+			System.out.println("load : " + imageurl);
+			frame.add(createLabelImage(imageurl));
+		}
 	}
 	
 	
