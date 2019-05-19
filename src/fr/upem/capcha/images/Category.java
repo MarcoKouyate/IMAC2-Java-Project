@@ -67,16 +67,16 @@ public class Category implements Images{
 
 	@Override
 	public List<URL> getRandomPhotosURL(int value) {
-		if (this.images.isEmpty()) { this.getPhotos(); } //s'assurer que la liste d'image est pleine
-		List<URL> randomPhotosURL = images; 
-		Collections.shuffle(randomPhotosURL); 
-		return randomPhotosURL;
+		List<URL> randomPhotosURL = getRandomPhotoURL(); 
+		return randomPhotosURL.subList(0, Math.min(randomPhotosURL.size(), value));
 	}
 
 	@Override
 	public List<URL> getRandomPhotoURL() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.images.isEmpty()) { this.getPhotos(); } //s'assurer que la liste d'image est pleine
+		List<URL> randomPhotosURL = images; 
+		Collections.shuffle(randomPhotosURL); 
+		return randomPhotosURL;
 	}
 
 	@Override
