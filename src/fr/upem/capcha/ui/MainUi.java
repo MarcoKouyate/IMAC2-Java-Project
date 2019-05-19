@@ -33,6 +33,7 @@ public class MainUi {
 	public static void main(String[] args) throws IOException {
 		
 		Category cat = new Vehicle();
+		MainLogic logicEngine = new MainLogic();
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		
