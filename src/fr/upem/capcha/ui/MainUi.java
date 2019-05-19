@@ -24,7 +24,8 @@ import javax.swing.JTextArea;
 
 import fr.upem.capcha.images.Category;
 import fr.upem.capcha.images.vehicles.Vehicle;
-import fr.upem.capcha.logic.MainLogic;;
+import fr.upem.capcha.images.vehicles.cars.Car;
+import fr.upem.capcha.logic.MainLogic;
 
 public class MainUi {
 	
@@ -33,6 +34,7 @@ public class MainUi {
 	public static void main(String[] args) throws IOException {
 		
 		Category cat = new Vehicle();
+		Category car = new Car();
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		
@@ -47,14 +49,19 @@ public class MainUi {
 		
 		JButton okButton = createOkButton();
 		
-		System.out.println("Money");
 
-		List<URL> images = cat.getPhotos();
+		List<URL> images = cat.getRandomPhotosURL(0);
 	
 		for (URL imageurl : images) {
 			System.out.println("load : " + imageurl);
 			frame.add(createLabelImage(imageurl));
-		}	
+			System.out.println(cat.isPhotoCorrect(imageurl));
+		}
+		
+
+		
+
+		
 		
 		/*
 		frame.add(createLabelImage("centre ville.jpg")); //ajouter des composants à la fenêtre

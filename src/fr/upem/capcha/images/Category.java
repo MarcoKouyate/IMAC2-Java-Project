@@ -16,9 +16,15 @@ import fr.upem.capcha.ui.MainUi;
 public class Category implements Images{
 	
 	private List<URL> images = new ArrayList<URL>();
+	private String path;
+	private String windowspath;
 	
 	public Category() {
 		super();
+		/* Pour obtenir le chemin de fichier vers la catégorie */
+		path = "src/"+this.getClass().getPackage().getName().replace('.', '/');
+		windowspath = "src\\"+this.getClass().getPackage().getName().replace('.', '\\');
+		
 		images = this.getPhotos();
 	}
 
@@ -28,10 +34,6 @@ public class Category implements Images{
 		
 		
 		List<URL> allImagesURL = new ArrayList<URL>();
-		
-		/* Pour obtenir le chemin de fichier vers la catégorie */
-		String path = "src/"+this.getClass().getPackage().getName().replace('.', '/');
-		String windowspath = "src\\"+this.getClass().getPackage().getName().replace('.', '\\');
 		
 		/* On initialise la liste de toutes les images */
 		List<String> filelocations = null;
@@ -79,8 +81,14 @@ public class Category implements Images{
 
 	@Override
 	public boolean isPhotoCorrect(URL url) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isCorrect = false;
+		String currentPhoto = url.toString();
+		
+		for (URL validImage : images) {
+			isCorrect = isCorrect || (currentPhoto.equals(validImage.toString()));
+		}
+		
+		return isCorrect;
 	}
 	
 }
