@@ -31,12 +31,12 @@ public class Category implements Images{
 		
 		/* Pour obtenir le chemin de fichier vers la catégorie */
 		String path = "src/"+this.getClass().getPackage().getName().replace('.', '/');
-		String windowspath = "src/"+this.getClass().getPackage().getName().replace('.', '\\');
+		String windowspath = "src\\"+this.getClass().getPackage().getName().replace('.', '\\');
 		
 		/* On initialise la liste de toutes les images */
 		List<String> filelocations = null;
 
-		System.out.println("package name :" + path); //afficher le dossier en cours
+		System.out.println("package name :" + windowspath); //afficher le dossier en cours
 		
 		/*Nous allons retrouver les fichiers images présent dans le répertoire et tous ses sous-répertoires*/
 		Path start = Paths.get(path); //détermine le point de départ 
