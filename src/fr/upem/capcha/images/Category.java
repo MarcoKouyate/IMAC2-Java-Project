@@ -14,7 +14,7 @@ import fr.upem.capcha.ui.MainUi;
 
 public class Category implements Images{
 	
-	List<URL> images = new ArrayList<URL>();
+	private List<URL> images = new ArrayList<URL>();
 	
 	public Category() {
 		super();
@@ -48,6 +48,7 @@ public class Category implements Images{
 		/* Pour chaque fichier retrouvé, on essaie de retrouver son chemin absolu pour le stocker dans le allImagesURL */
 		for (String filelocation : filelocations) {
 			String relativeLocation = filelocation.replace(path+"/", ""); // Pour ne pas partir de src mais de la classe courante
+			System.out.println("relative location " + relativeLocation);
 			allImagesURL.add(this.getClass().getResource(relativeLocation)); //on ajoute le chemin absolu dans la liste
 		}
 		

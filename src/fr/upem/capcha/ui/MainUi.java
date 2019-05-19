@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 
 import fr.upem.capcha.images.Category;
 import fr.upem.capcha.images.vehicles.Vehicle;
-import fr.upem.capcha.logic.LogicEngine;;
+import fr.upem.capcha.logic.MainLogic;;
 
 public class MainUi {
 	
