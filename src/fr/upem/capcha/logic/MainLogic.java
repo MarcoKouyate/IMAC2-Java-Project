@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.net.URL;
 
 import java.util.Collections;
 
@@ -139,7 +140,13 @@ public class MainLogic {
 		return currentCategory;
 	}
 	
-	boolean checkCaptcha() {
-		return true;
+	public boolean checkCaptcha(List<URL> selectedImages) {
+		boolean isTotalCorrect = true;
+
+		for (URL imageurl : selectedImages) {
+			isTotalCorrect = isTotalCorrect & currentCategory.isPhotoCorrect(imageurl);
+		}
+		
+		return isTotalCorrect;
 	}
 }

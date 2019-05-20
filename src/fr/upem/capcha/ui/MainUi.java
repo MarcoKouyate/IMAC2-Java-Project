@@ -31,15 +31,12 @@ public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	private static JFrame frame = new JFrame("Capcha");
+	private static MainLogic logicEngine = new MainLogic();
+
 	
 	public static void main(String[] args) throws IOException {
 		
-		
-
-		MainLogic logicEngine = new MainLogic();
-		Category cat = logicEngine.getCurrentCategory();
-
-		
+				
 		 // Création de la fenêtre principale
 		
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
@@ -50,6 +47,8 @@ public class MainUi {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
 		 
+		
+		Category cat = logicEngine.getCurrentCategory();
 		
 		List<URL> images = cat.getRandomPhotosURL(9);
 		createImages(images);
@@ -91,6 +90,7 @@ public class MainUi {
 					@Override
 					public void run() { // c'est un runnable
 						System.out.println("J'ai cliqué sur Ok");
+						System.out.println("Captcha : " + logicEngine.checkCaptcha(selectedImages));
 					}
 				});
 			}

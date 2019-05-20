@@ -50,6 +50,7 @@ public class Category implements Images{
 			e.printStackTrace();
 		}
 		
+		
 		/* Pour chaque fichier retrouvé, on essaie de retrouver son chemin absolu pour le stocker dans le allImagesURL */
 		for (String filelocation : filelocations) {
 			String relativeLocation = filelocation.replace(path+"/", ""); // Pour ne pas partir de src mais de la classe courante
