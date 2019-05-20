@@ -47,18 +47,9 @@ public class MainUi {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
 		 
-		
-		Category cat = logicEngine.getCurrentCategory();
-		
-		List<URL> images = cat.getRandomPhotosURL(9);
-		createImages(images);
+		createImages(logicEngine.getImages());
 		
 		logicEngine.increaseDifficulty();
-		Category sample = logicEngine.getCurrentCategory();
-
-		for (URL imageurl : images) {
-			System.out.println(sample.isPhotoCorrect(imageurl));
-		}
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		

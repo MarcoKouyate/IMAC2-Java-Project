@@ -22,11 +22,13 @@ public class MainLogic {
 	private int difficulty;
 	private ArrayList<Category> categories;
 	private Category currentCategory;
+	private List<URL> images;
 	
 	public MainLogic() {
 		difficulty = 0;
 		categories = this.getCategories();
 		currentCategory = chooseCategory();
+		images = currentCategory.getRandomPhotosURL(9);
 	}
 	
 	public ArrayList<Category> getCategories() {
@@ -140,13 +142,20 @@ public class MainLogic {
 		return currentCategory;
 	}
 	
+	public List<URL> getImages() {
+		return images;
+	}
+	
 	public boolean checkCaptcha(List<URL> selectedImages) {
 		boolean isTotalCorrect = true;
 
-		for (URL imageurl : selectedImages) {
-			isTotalCorrect = isTotalCorrect & currentCategory.isPhotoCorrect(imageurl);
+		List<URL> correctImages = images.stream()
+			    .filter(i -> currentCategory.isPhotoCorrect(i)).collect(Collectors.toList());
+
+		for (URL correcturl : correctImages) {
+			isTotalCorrect = isTotalCorrect & selectedImages.contains(correcturl);
 		}
 		
-		return isTotalCorrect;
+		return isTotalCorrect & (selectedImages.size() == correctImages.size());
 	}
 }
