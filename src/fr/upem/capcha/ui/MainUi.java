@@ -35,11 +35,9 @@ public class MainUi {
 	public static void main(String[] args) throws IOException {
 		
 		Category cat = new Vehicle();
-<<<<<<< HEAD
+
 		MainLogic logicEngine = new MainLogic();
-=======
-		Category car = new Car();
->>>>>>> 4bafab305ed3cd03d1aa210346fc7923989ea630
+
 		
 		 // Création de la fenêtre principale
 		
