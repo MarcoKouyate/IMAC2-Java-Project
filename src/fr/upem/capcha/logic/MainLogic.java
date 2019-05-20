@@ -94,7 +94,7 @@ public class MainLogic {
 			}
 			
 			for (String filelocation : filelocations) {
-				String relativeLocation = filelocation.replace('/','.').replace("src.", "").replace(".java", ""); // Pour ne pas partir de src mais de la classe courante
+				String relativeLocation = filelocation.replace('/','.').replace('\\','.').replace("src.", "").replace(".java", ""); // Pour ne pas partir de src mais de la classe courante
 				categoryNames.add(relativeLocation); //on ajoute le chemin absolu dans la liste
 			}
 		}
