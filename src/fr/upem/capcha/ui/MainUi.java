@@ -34,9 +34,10 @@ public class MainUi {
 	
 	public static void main(String[] args) throws IOException {
 		
-		Category cat = new Vehicle();
+		
 
 		MainLogic logicEngine = new MainLogic();
+		Category cat = logicEngine.getCurrentCategory();
 
 		
 		 // Création de la fenêtre principale
@@ -53,6 +54,13 @@ public class MainUi {
 		List<URL> images = cat.getRandomPhotosURL(9);
 		createImages(images);
 		
+		logicEngine.increaseDifficulty();
+		Category sample = logicEngine.getCurrentCategory();
+
+		for (URL imageurl : images) {
+			System.out.println(sample.isPhotoCorrect(imageurl));
+		}
+		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		
 		JButton okButton = createOkButton();
@@ -63,7 +71,6 @@ public class MainUi {
 	
 	private static void createImages(List<URL> imageList) throws IOException {
 		for (URL imageurl : imageList) {
-			System.out.println("load : " + imageurl);
 			frame.add(createLabelImage(imageurl));
 		}
 	}

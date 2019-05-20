@@ -37,8 +37,6 @@ public class Category implements Images{
 		
 		/* On initialise la liste de toutes les images */
 		List<String> filelocations = null;
-
-		System.out.println("package name :" + windowspath); //afficher le dossier en cours
 		
 		/*Nous allons retrouver les fichiers images présent dans le répertoire et tous ses sous-répertoires*/
 		Path start = Paths.get(path); //détermine le point de départ 
@@ -56,7 +54,6 @@ public class Category implements Images{
 		for (String filelocation : filelocations) {
 			String relativeLocation = filelocation.replace(path+"/", ""); // Pour ne pas partir de src mais de la classe courante
 			relativeLocation = relativeLocation.replace(windowspath+"\\", "");
-			System.out.println("relative location : " + relativeLocation);
 			allImagesURL.add(this.getClass().getResource(relativeLocation)); //on ajoute le chemin absolu dans la liste
 		}
 		
@@ -89,6 +86,11 @@ public class Category implements Images{
 		}
 		
 		return isCorrect;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getName();
 	}
 	
 }
