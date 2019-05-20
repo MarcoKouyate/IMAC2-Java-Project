@@ -6,5 +6,10 @@ public class Vehicle extends Category {
 	public Vehicle() {
 		super();
 	}
+	
+	@Override
+	public String toString() {
+		return "vehicules";
+	}
 
 }

@@ -2,7 +2,6 @@ package fr.upem.capcha.logic;
 import java.io.File;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,11 +14,11 @@ import java.net.URL;
 import java.util.Collections;
 
 import fr.upem.capcha.images.*;
-import fr.upem.capcha.images.vehicles.*;
 
 public class MainLogic {
 	
 	private int difficulty;
+	private int maxDifficulty = 2;
 	private ArrayList<Category> categories;
 	private Category currentCategory;
 	private List<URL> images;
@@ -133,7 +132,9 @@ public class MainLogic {
 	}
 	
 	public void increaseDifficulty() {
-		difficulty++;
+		if (difficulty < maxDifficulty) {
+			difficulty++;
+		}
 		categories = this.getCategories();
 		currentCategory = chooseCategory();
 	}
@@ -146,7 +147,8 @@ public class MainLogic {
 		return images;
 	}
 	
-	public boolean checkCaptcha(List<URL> selectedImages) {
+	
+	public boolean isCaptchaCorrect(List<URL> selectedImages) {
 		boolean isTotalCorrect = true;
 
 		List<URL> correctImages = images.stream()
