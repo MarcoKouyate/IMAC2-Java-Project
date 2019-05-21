@@ -37,11 +37,6 @@ public class MainUi {
 		
 				
 		 // Création de la fenêtre principale
-		
-		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-
-		
-		frame.setLayout(layout);  // affection du layout dans la fenêtre.
 		frame.setSize(1024, 768); // définition de la taille
 		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
 		
@@ -51,17 +46,9 @@ public class MainUi {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
 		console.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		 
-		createImages(logicEngine.getImages(), frame);
 		
-		logicEngine.increaseDifficulty();
+		createWindow();
 		
-		frame.add(new JTextArea("Cliquez sur les images avec des " + logicEngine.getCurrentCategory()));
-		
-		JButton okButton = createOkButton();
-		frame.add(okButton);
-		
-
 		frame.setVisible(true);
 
 	}
@@ -87,39 +74,10 @@ public class MainUi {
 					
 					@Override
 					public void run() { // c'est un runnable
-						System.out.println("J'ai cliqué sur Ok");
 						if (logicEngine.isCaptchaCorrect(selectedImages)) {
 							createConsole("Félicitations vous avez réussi");
 						} else {
-							JFrame newWindow = new JFrame("Capcha - retry");
-							
-							GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-
-							
-							newWindow.setLayout(layout);  // affection du layout dans la fenêtre.
-							newWindow.setSize(1024, 768); // définition de la taille
-							newWindow.setResizable(false);  // On définit la fenêtre comme non redimentionnable
-							
-							newWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
-
-							 
-							try {
-								createImages(logicEngine.getImages(), newWindow);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							
-							logicEngine.increaseDifficulty();
-							
-							newWindow.add(new JTextArea("Cliquez sur les images avec des " + logicEngine.getCurrentCategory()));
-							
-							JButton okButton = createOkButton();
-							newWindow.add(okButton);
-							
-
-							newWindow.setVisible(true);
-							
+							createWindow();
 							createConsole("Vous avez fait une erreur. Réessayez");
 						}
 					}
@@ -136,8 +94,35 @@ public class MainUi {
 		console.setVisible(true);
 	}
 	
-	private static JLabel createLabelImage(URL url) throws IOException{
+	private static void createWindow () {
+		selectedImages.clear();
 		
+		frame.getContentPane().removeAll();
+		
+		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes	
+		frame.setLayout(layout);
+
+		 
+		try {
+			createImages(logicEngine.getImages(), frame);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		logicEngine.increaseDifficulty();
+		
+		frame.add(new JTextArea("Cliquez sur les images avec des " + logicEngine.getCurrentCategory()));
+		
+		JButton okButton = createOkButton();
+		frame.add(okButton);
+	
+		 frame.revalidate();
+		 frame.repaint();
+	}
+	
+	
+	private static JLabel createLabelImage(URL url) throws IOException{
 	
 		BufferedImage img = ImageIO.read(url); //lire l'image
 		Image sImage = img.getScaledInstance(1024/3,768/4, Image.SCALE_SMOOTH); //redimentionner l'image

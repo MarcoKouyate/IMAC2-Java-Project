@@ -1,6 +1,8 @@
 package fr.upem.capcha.logic;
 import java.io.File;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,16 +20,18 @@ import fr.upem.capcha.images.*;
 public class MainLogic {
 	
 	private int difficulty;
-	private int maxDifficulty = 2;
+	private int maxDifficulty = 3;
 	private ArrayList<Category> categories;
 	private Category currentCategory;
+	private Category firstCategory;
 	private List<URL> images;
 	
 	public MainLogic() {
 		difficulty = 0;
 		categories = this.getCategories();
 		currentCategory = chooseCategory();
-		images = currentCategory.getRandomPhotosURL(9);
+		firstCategory = currentCategory;
+		images = poolImages(3);
 	}
 	
 	public ArrayList<Category> getCategories() {
@@ -41,7 +45,6 @@ public class MainLogic {
 			    {	 
 					Class cls = Class.forName(categoryString);
 					Category cat = (Category) cls.newInstance();
-					System.out.println("classe categories : " + cat);
 					newCategories.add(cat);
 			    }
 			    catch (ClassNotFoundException e)
@@ -127,7 +130,6 @@ public class MainLogic {
 		ArrayList<Category> randomCategories = categories;
 		Collections.shuffle(randomCategories);
 		Category chosenCategory = randomCategories.get(0);
-		System.out.println();
 		return chosenCategory;
 	}
 	
@@ -137,6 +139,7 @@ public class MainLogic {
 		}
 		categories = this.getCategories();
 		currentCategory = chooseCategory();
+		//images = poolImages(3);
 	}
 	
 	public Category getCurrentCategory() {
@@ -144,13 +147,29 @@ public class MainLogic {
 	}
 	
 	public List<URL> getImages() {
+		int randomNum = ThreadLocalRandom.current().nextInt(2, Math.min(currentCategory.getPhotosListSize(), 5));
+		images = poolImages(randomNum);
 		return images;
 	}
 	
+	private List<URL> poolImages (int value) {
+		List<URL> validImages = currentCategory.getRandomPhotosURL(value);
+		List<URL> allImages = firstCategory.getRandomPhotoURL();
+		
+		for (int i = value; validImages.size() <= 8; i++) {
+			if (!validImages.contains(allImages.get(i))){
+				validImages.add(allImages.get(i));
+			}
+		}
+		
+		Collections.shuffle(validImages);
+		
+		return validImages;
+	}
 	
 	public boolean isCaptchaCorrect(List<URL> selectedImages) {
 		boolean isTotalCorrect = true;
-
+		
 		List<URL> correctImages = images.stream()
 			    .filter(i -> currentCategory.isPhotoCorrect(i)).collect(Collectors.toList());
 

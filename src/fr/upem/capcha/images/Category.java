@@ -62,6 +62,9 @@ public class Category implements Images{
 		return allImagesURL; //on retourne la liste
 	}
 	
+	public int getPhotosListSize() {
+		return images.size();
+	}
 
 	@Override
 	public List<URL> getRandomPhotosURL(int value) {
