@@ -1,8 +1,4 @@
 //TODO Javadoc
-//TODO random number of images
-//TODO dynamically detect maximum difficulty
-//TODO deleguete classes
-
 
 package fr.upem.capcha.logic;
 import java.io.File;
@@ -42,37 +38,92 @@ import fr.upem.capcha.logic.CategoryManager;
  * 
  */
 
+//TODO ImageManager
+//TODO Immutability
 
 public class MainLogic {
 	
+    /**
+     * Test difficulty 
+     * 
+     * @see MainLogic#increaseDifficulty()
+     */
 	private int difficulty;
-	private int maxDifficulty = 3;
+	//TODO remove difficulty
+	
+	
+    /**
+     * Maximum difficulty
+     * 
+     * @see MainLogic#increaseDifficulty()
+     */
+	final static private int maxDifficulty = 3;
+	
+    /**
+     * Dedicated class for managing categories
+     * 
+     * <p>
+     * 	 That class provides the correct images depending on the current category
+     * </p>
+     * 
+     * @see CategoryManager
+     * @see MainLogic#increaseDifficulty()
+     * @see MainLogic#poolImages(int)
+     * @see MainLogic#isCaptchaCorrect(List)
+     */
 	private CategoryManager categoryManager = new CategoryManager(difficulty);
 	
+	/**
+	 * List of active images to display on screen
+	 * 
+	 * @see MainLogic#getImages()
+	 * @see MainLogic#poolImages(int)
+	 * @see MainLogic#isCaptchaCorrect(List)
+	 */
 	private List<URL> images;
 	
+	
+    /**
+     * MainLogic Constructor.
+     * <p>
+     * Set difficulty to 0 by default and pool images
+     * </p>
+     * 
+     * @see MainLogic#difficulty
+     * @see MainLogic#images
+     */
 	public MainLogic() {
 		difficulty = 0;
 		images = poolImages(3);
 	}
-	
+	//TODO make MainLogic singleton
+	//TODO make MainLogic immutable
 
 	/**
-     * Increase difficulty of CAPTCHA.
-     * 
+     * Increase difficulty of CAPTCHA (but never above maxDifficulty)
+     * then asks category manager to update.
      */
-
-
 	public void increaseDifficulty() {
 		if (difficulty < maxDifficulty) {
 			difficulty++;
 		}
 		categoryManager.updateCategories(difficulty);
 	}
+	//TODO avoid void functions for immutability
 	
+	/**
+     * Getter of current category.
+     * 
+     * <p>
+     * 	Useful for printing category
+     * </p>
+     * 
+     * @return the current category
+     */
 	public Category getCurrentCategory() {
 		return categoryManager.current();
 	}
+	//TODO find another way to print question
 	
 	public List<URL> getImages() {
 		images = poolImages(2);
