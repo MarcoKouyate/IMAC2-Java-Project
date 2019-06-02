@@ -1,7 +1,10 @@
 package fr.upem.capcha.images;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fr.upem.capcha.ui.MainUi;
+
+//TODO full compatibility with windows (stock url file with same encoding)
 
 public class Category implements Images{
 	
@@ -27,6 +32,23 @@ public class Category implements Images{
 		
 		images = this.getPhotos();
 	}
+	
+    public static String encodeurl(String url)  
+    {  
+
+        try {  
+             String prevURL="";  
+             String decodeURL=url;  
+             while(!prevURL.equals(decodeURL))  
+             {  
+                  prevURL=decodeURL;  
+                  decodeURL=URLDecoder.decode( decodeURL, "UTF-8" );  
+             }  
+             return decodeURL.replace('\\', '/');  
+        } catch (UnsupportedEncodingException e) {  
+             return "Issue while decoding" +e.getMessage();  
+        }   
+    }
 
 	@Override
 	public List<URL> getPhotos() {
@@ -83,10 +105,10 @@ public class Category implements Images{
 	@Override
 	public boolean isPhotoCorrect(URL url) {
 		boolean isCorrect = false;
-		String currentPhoto = url.toString();
+		String currentPhoto = encodeurl(url.toString());
 		
 		for (URL validImage : images) {
-			isCorrect = isCorrect || (currentPhoto.equals(validImage.toString()));
+			isCorrect = isCorrect || (currentPhoto.equals(encodeurl(validImage.toString())));
 		}
 		
 		return isCorrect;
@@ -96,5 +118,4 @@ public class Category implements Images{
 	public String toString() {
 		return this.getClass().getName();
 	}
-	
 }
