@@ -24,6 +24,25 @@ import java.util.Collections;
 import fr.upem.capcha.images.*;
 import fr.upem.capcha.logic.CategoryManager;
 
+/**
+ * <b>MainLogic est la classe qui sert à la gestion logique du système.</b>
+ * <p>
+ * C'est à dire :
+ * <ul>
+ * <li>Savoir si le Captcha est correct.</li>
+ * <li>Gérer la difficulté.</li>
+ * <li>Stocker la liste des images actives.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * 	Il commande le CategoryManager
+ * </p>
+ * 
+ * @see CategoryManager
+ * 
+ */
+
+
 public class MainLogic {
 	
 	private int difficulty;
@@ -37,6 +56,12 @@ public class MainLogic {
 		images = poolImages(3);
 	}
 	
+
+	/**
+     * Increase difficulty of CAPTCHA.
+     * 
+     */
+
 
 	public void increaseDifficulty() {
 		if (difficulty < maxDifficulty) {
