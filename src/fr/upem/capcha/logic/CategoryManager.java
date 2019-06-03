@@ -13,13 +13,69 @@ import java.util.stream.Stream;
 
 import fr.upem.capcha.images.Category;
 
+/**
+ * <b>CategoryManager is a class managing categories and related pictures.</b>
+ * 
+ * <p>
+ * What it does :
+ * </p>
+ * 
+ * <ul>
+ * <li>Get the relevant categories depending of the difficulty level</li>
+ * <li>Pick one of them as the current category.</li>
+ * </ul>
+ * 
+ * <p>
+ * 	Directed by MainLogic and managing Category instances
+ * </p>
+ * 
+ * @see MainLogic
+ * @see Category
+ * 
+ */
 public class CategoryManager {
 	
-	
+    /**
+     * list of categories of the current level
+     * 
+     * @see Category
+     * @see CategoryManager#chooseCategory()
+     * @see CategoryManager#updateCategories(int)
+     */
 	private ArrayList<Category> categories;
+	//TODO see if we can remove categories
+	
+    /**
+     * active category
+     * 
+     * @see CategoryManager#chooseCategory()
+     * @see CategoryManager#updateCategories(int)
+     * @see CategoryManager#current()
+     */
 	private Category currentCategory;
+	
+    /**
+     * initial category 
+     * 
+     * @see CategoryManager#first()
+     * 
+     */
 	private Category firstCategory;
 
+    /**
+     * CategoryManager Constructor.
+     * <p>
+     * set the current and the first category depending on the difficulty
+     * </p>
+     * 
+     * @param difficulty
+     * 		set the level of categories to choose from
+     * 
+     * @see CategoryManager#getCategories(int)
+     * @see CategoryManager#chooseCategory()
+     * @see CategoryManager#currentCategory
+     * @see CategoryManager#firstCategory
+     */
 	public CategoryManager(int difficulty) {
 		categories = this.getCategories(difficulty);
 		currentCategory = chooseCategory();
@@ -27,10 +83,25 @@ public class CategoryManager {
 	}
 	
 	
+	/**
+     * Search and create all categories with specified level of difficulty
+     * 
+     * <p>
+     * 	Note : using introspection to create instances dynamically
+     * </p>
+     * 
+     * @param difficulty
+     * 		set the level of sub-categories to choose
+     * 
+     * @return list of all categories depending on the input difficulty
+     * 
+     * @see CategoryManager#getCategoryNames(int)
+     */
 	public ArrayList<Category> getCategories(int difficulty) {
 		ArrayList<Category> newCategories = new ArrayList<Category>();
 		
 		List<String> categoriesString = getCategoryNames(difficulty);
+		
 		do {
 			for(String categoryString : categoriesString) {
 				try
@@ -41,19 +112,16 @@ public class CategoryManager {
 			    }
 			    catch (ClassNotFoundException e)
 			    {
-			      // La classe n'existe pas
 			    	System.out.println("La classe n'existe pas");
 			    	e.printStackTrace(); 
 			    }
 			    catch (InstantiationException e)
 			    {
-			      // La classe est abstract ou est une interface ou n'a pas de constructeur accessible sans param�tre
 			    	System.out.println("// La classe est abstract ou est une interface ou n'a pas de constructeur accessible sans param�tre");
 			    	e.printStackTrace(); 
 			    }
 			    catch (IllegalAccessException e)
 			    {
-			      // La classe n'est pas accessible
 			    	System.out.println("La classe n'est pas accessible");
 			    	e.printStackTrace(); 
 			    }
@@ -63,11 +131,31 @@ public class CategoryManager {
 		return newCategories;
 	}
 	
+	
+	/**
+     * update categories with specified level of difficulty
+     * 
+     * @param difficulty
+     * 		set the new level of sub-categories to get
+     * 
+     * @see CategoryManager#categories
+     * @see CategoryManager#currentCategory
+     */
 	public void updateCategories(int difficulty) {
 		categories = getCategories(difficulty);
 		currentCategory = chooseCategory();
 	}
 	
+	
+	/**
+     * Get the name of all categories with specified level of difficulty
+     * 
+     * 
+     * @param level
+     * 		set the level of sub-categories to choose
+     * 
+     * @return list of all categories name depending on the input difficulty
+     */
 	private List<String> getCategoryNames(int level){
 		
 		String dirName = "src/fr/upem/capcha/images";
@@ -103,7 +191,20 @@ public class CategoryManager {
 		return categoryNames;
 	}
 	
-	
+	/**
+     * Get the list of all sub directories depending on the input level
+     * 
+     * <p>
+     * 		Note: is a recursive function. calls itself until current directory has no child
+     * </p>
+     * 
+     * @param level
+     * 		level of depth when browsing the files
+     * @param parent
+     * 		current file to browse
+     * 
+     * @return list of all sub-directories depending on the input level
+     */
 	private List<File> getCategoryDirs(File parent, int level){
 		
 	    List<File> dirs = new ArrayList<File>();
@@ -121,7 +222,11 @@ public class CategoryManager {
 	}
 	
 	
-	/* Permet de choisir une catégorie au hasard parmi celles stockées */ 
+	/**
+     * Choose a random category from the list of categories of current level
+     * 
+     * @return a random category 
+     */ 
 	private Category chooseCategory () {
 		ArrayList<Category> randomCategories = categories;
 		Collections.shuffle(randomCategories);
@@ -129,10 +234,20 @@ public class CategoryManager {
 		return chosenCategory;
 	}
 	
+	/**
+     * Get the initial category
+     * 
+     * @return initial category 
+     */ 
 	public Category first() {
 		return firstCategory;
 	}
 	
+	/**
+     * Get the current category
+     * 
+     * @return current category 
+     */ 
 	public Category current() {
 		return currentCategory;
 	}

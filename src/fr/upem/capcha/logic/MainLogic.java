@@ -1,18 +1,9 @@
 //TODO Javadoc
 
 package fr.upem.capcha.logic;
-import java.io.File;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.net.URL;
 
 import java.util.Collections;
@@ -24,12 +15,14 @@ import fr.upem.capcha.logic.CategoryManager;
  * <b>MainLogic est la classe qui sert à la gestion logique du système.</b>
  * <p>
  * C'est à dire :
+ * </p>
+ * 
  * <ul>
  * <li>Savoir si le Captcha est correct.</li>
  * <li>Gérer la difficulté.</li>
  * <li>Stocker la liste des images actives.</li>
  * </ul>
- * </p>
+ * 
  * <p>
  * 	Il commande le CategoryManager
  * </p>
@@ -40,7 +33,6 @@ import fr.upem.capcha.logic.CategoryManager;
 
 //TODO ImageManager
 //TODO Immutability
-
 public class MainLogic {
 	
     /**
@@ -130,6 +122,19 @@ public class MainLogic {
 		return images;
 	}
 	
+	
+	/**
+     * Get images to display
+     *
+     * <p>
+     * 	 Select a number of correct images then fill the rest.
+     * </p>
+     * 
+     * @param value
+     * 		number of correct images to put into the list
+     *
+     * @return list of 9 URL representing images
+     */
 	private List<URL> poolImages (int value) {
 		List<URL> validImages = categoryManager.current().getRandomPhotosURL(value);
 		List<URL> allImages = categoryManager.first().getRandomPhotoURL();
@@ -144,7 +149,16 @@ public class MainLogic {
 		
 		return validImages;
 	}
+	//TODO check if at least one correct image is present
 	
+	/**
+     * check if images selected are correct. 
+     *
+     * @param selectedImages
+     * 		list of images to check with valid images
+     * 
+     * @return true if all items match, false if at least one is missing or wrong
+     */
 	public boolean isCaptchaCorrect(List<URL> selectedImages) {
 		boolean isTotalCorrect = true;
 		

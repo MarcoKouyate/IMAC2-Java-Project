@@ -1,6 +1,7 @@
 package fr.upem.capcha.ui;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -22,17 +23,64 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import fr.upem.capcha.logic.CategoryManager;
 import fr.upem.capcha.logic.MainLogic;
 
+/**
+ * <b>MainUi is the main class of the program.</b>
+ * <p>
+ * This class manages:
+ * </p>
+ * 
+ * <ul>
+ * <li>interface</li>
+ * <li>user events</li>
+ * <li>windows</li>
+ * </ul>
+ * 
+ * <p>
+ * This class delegates the logic part of the program to the MainLogic class and only display the state of the application
+ * </p>
+ * 
+ */
+
 public class MainUi {
-	
+	/**
+	 * list of images url selected by user
+	 */
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
+	
+	/**
+	 * window instance 
+	 */
 	private static JFrame frame = new JFrame("Capcha");
+	
+	/**
+	 * class running the logic part of the program 
+	 */
 	private static MainLogic logicEngine = new MainLogic();
+	
+	/**
+	 * window instance displaying messages
+	 */
 	private static JFrame console = new JFrame("Capcha - result");
+	
+	/**
+	 * message to display
+	 */
 	private static JTextArea message = new JTextArea("");
 
-	
+	/**
+	 * Main function
+	 * 
+	 * <p>
+	 * 	Set the settings and create a window 
+	 * </p>
+	 * @param args
+	 * 		list of parameters specified during program execution
+	 * 
+	 * @throws IOException if image file can't be read
+	 */
 	public static void main(String[] args) throws IOException {
 		
 				
@@ -53,6 +101,17 @@ public class MainUi {
 
 	}
 	
+	/**
+	 * Display list of images in the window
+	 * 
+	 * @param imageList
+	 * 		list of images to display
+	 * 
+	 * @param window
+	 * 		window displaying the images
+	 * 
+	 * @throws IOException if image file can't be read
+	 */
 	private static void createImages(List<URL> imageList, JFrame window) throws IOException {
 		for (URL imageurl : imageList) {
 			window.add(createLabelImage(imageurl));
@@ -60,11 +119,20 @@ public class MainUi {
 	}
 	
 	
-	
+	/**
+	 * create a specific layout for the program window
+	 * 
+	 * @return grid layout (four lines, 3 rows)
+	 */
 	private static GridLayout createLayout(){
 		return new GridLayout(4,3);
 	}
 	
+	/**
+	 * Create the validation button
+	 * 
+	 * @return button panel with specific action
+	 */
 	private static JButton createOkButton(){
 		return new JButton(new AbstractAction("Vérifier") { //ajouter l'action du bouton
 			
@@ -86,6 +154,11 @@ public class MainUi {
 		});
 	}
 	
+	/**
+	 * Create a alert window
+	 * @param msg
+	 * 		message to display in the alert window
+	 */
 	private static void createConsole(String msg) {
 		console.remove(message);
 		message = new JTextArea(msg);
@@ -94,6 +167,9 @@ public class MainUi {
 		console.setVisible(true);
 	}
 	
+	/**
+	 * Create / Refresh the application window with all components
+	 */
 	private static void createWindow () {
 		selectedImages.clear();
 		
@@ -121,8 +197,19 @@ public class MainUi {
 		 frame.repaint();
 	}
 	
-	
-	private static JLabel createLabelImage(URL url) throws IOException{
+	/**
+	 * Create Image component using the url to an image file
+	 * <p>
+	 * The component also includes mouse events
+	 * </p>
+	 * 
+	 * @param
+	 *  	url to the image file to display
+	 * @return Image component including photo and mouse actions
+	 * 
+	 * @throws IOException if image file can't be read
+	 */
+	private static JLabel createLabelImage(URL url) throws IOException {
 	
 		BufferedImage img = ImageIO.read(url); //lire l'image
 		Image sImage = img.getScaledInstance(1024/3,768/4, Image.SCALE_SMOOTH); //redimentionner l'image
